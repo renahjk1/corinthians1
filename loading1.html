@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisando Respostas - Corinthians</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #FF0000, #FFFFFF);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #FF0000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-text {
+            color: #374151;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #22c55e;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            display: none;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-title {
+            color: #22c55e;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .success-text {
+            color: #16a34a;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .redirect-info {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .status-text {
+                font-size: 16px;
+            }
+            
+            .success-title {
+                font-size: 20px;
+            }
+            
+            .success-text {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="/assets/images/corinthians-logo.png" alt="Logo do Corinthians" class="logo">
+        
+        <div class="status-text" id="statusText">Analisando suas respostas...</div>
+        
+        <div class="loading-spinner" id="spinner"></div>
+        
+        <div class="success-message" id="successMessage">
+            <div class="success-title">🎉 Parabéns!</div>
+            <div class="success-text">Você acertou <span id="correctCount">5</span> das 5 perguntas!</div>
+            <div class="redirect-info">Redirecionando em <span id="countdown">3</span> segundos...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const spinner = document.getElementById("spinner");
+            const statusText = document.getElementById("statusText");
+            const successMessage = document.getElementById("successMessage");
+            const countdownElement = document.getElementById("countdown");
+
+            // Simular análise por 3 segundos
+            setTimeout(() => {
+                spinner.style.display = "none";
+                statusText.style.display = "none";
+                successMessage.style.display = "block";
+
+                // Contagem regressiva
+                let countdown = 3;
+                const countdownInterval = setInterval(() => {
+                    countdown--;
+                    countdownElement.textContent = countdown;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+                        // Redirecionar para parabéns
+                        const queryString = window.location.search;
+                        window.location.href = "/parabens" + queryString;
+                    }
+                }, 1000);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

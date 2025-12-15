@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processando - Corinthians</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #FF0000, #FFFFFF);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .step-container {
+            margin: 30px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: #f9fafb;
+            border-radius: 12px;
+            border-left: 4px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .step.active {
+            background: #fef3c7;
+            border-left-color: #FF0000;
+        }
+
+        .step.completed {
+            background: #f0fdf4;
+            border-left-color: #22c55e;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .step.active .step-icon {
+            background: #FF0000;
+            animation: spin 1s linear infinite;
+        }
+
+        .step.completed .step-icon {
+            background: #22c55e;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .step-text {
+            text-align: left;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+
+        .step-message {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .completion-message {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #22c55e;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            display: none;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .completion-title {
+            color: #22c55e;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .completion-text {
+            color: #16a34a;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .step {
+                padding: 15px;
+            }
+            
+            .step-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="/assets/images/corinthians-logo.png" alt="Logo do Corinthians" class="logo">
+        
+        <div class="step-container">
+            <div class="step active" id="step1">
+                <div class="step-icon">⟳</div>
+                <div class="step-text">
+                    <div class="step-title">Cadastrando endereço de envio</div>
+                    <div class="step-message">Salvando seus dados...</div>
+                </div>
+            </div>
+
+            <div class="step" id="step2">
+                <div class="step-icon">⟳</div>
+                <div class="step-text">
+                    <div class="step-title">Calculando valor de frete</div>
+                    <div class="step-message">Processando informações...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="completion-message" id="completionMessage">
+            <div class="completion-title">✓ Processamento Concluído!</div>
+            <div class="completion-text">Seus dados foram processados com sucesso. Redirecionando para a próxima página...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const step1 = document.getElementById("step1");
+            const step2 = document.getElementById("step2");
+            const completionMessage = document.getElementById("completionMessage");
+
+            // Etapa 1: Cadastrando endereço (2 segundos)
+            setTimeout(() => {
+                step1.classList.remove("active");
+                step1.classList.add("completed");
+                step1.querySelector(".step-icon").innerHTML = "✓";
+                step1.querySelector(".step-message").textContent = "Endereço cadastrado com sucesso!";
+
+                // Iniciar Etapa 2
+                step2.classList.add("active");
+            }, 2000);
+
+            // Etapa 2: Calculando frete (2 segundos depois)
+            setTimeout(() => {
+                step2.classList.remove("active");
+                step2.classList.add("completed");
+                step2.querySelector(".step-icon").innerHTML = "✓";
+                step2.querySelector(".step-message").textContent = "Frete calculado com sucesso!";
+
+                // Mostrar mensagem de conclusão
+                completionMessage.style.display = "block";
+
+                // Redirecionar após 2 segundos
+                setTimeout(() => {
+                    const queryString = window.location.search;
+                    window.location.href = "/taxa" + queryString;
+                }, 2000);
+            }, 4000);
+        });
+    </script>
+</body>
+</html>
